@@ -1,0 +1,39 @@
+{
+  "name": "moov-database",
+  "version": "0.1.0",
+  "description": "Database for moov",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "cs": "standard --verbose './bin/**/*.js' | snazzy",
+    "watch": "mocha --watch",
+    "test": "npm run cs && mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/moov-org/database.git"
+  },
+  "keywords": [
+    "Moov",
+    "Database",
+    "Json"
+  ],
+  "author": "uselessdev <wb_art@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moov-org/database/issues"
+  },
+  "homepage": "https://github.com/moov-org/database#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-fs": "^0.1.0",
+    "mocha": "^3.0.2",
+    "snazzy": "^4.0.1",
+    "standard": "^8.0.0-beta.5"
+  },
+  "dependencies": {
+    "lodash": "^4.15.0"
+  }
+}
