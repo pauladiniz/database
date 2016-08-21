@@ -1,20 +1,31 @@
 /**
  * Database test
- *
  */
 'use strict'
 
 const chai = require('chai')
 const expect = chai.expect
 
-const dbDefault = require('../bin/database')
-const db = dbDefault('../../test/files/database.json')
+const db = require('../bin/database')()
 
 chai.use(require('chai-fs'))
 
+let dbFile = '../../test/files/db.json'
+
 describe('Test database', function () {
-  it ('Expect should return an object', function () {
-    expect(db.set('subtitle', 'pob').store()).to.be.an.object
-    expect(dbDefault().set('subtitle', 'pob').store()).to.be.an.object
+  it ('Expect to return an error if file is not a json', function () {
+    expect(db.setFile('../files/database.txt')).to.be.an.error
+  })
+
+  it (`Expect database to be a string and equal parameter`, function () {
+    expect(db.setFile(dbFile).database)
+      .to.be.a('string')
+      .to.be.equal(dbFile)
+  })
+
+  it ('Expect to be an object and contains subtitle property', function () {
+    expect(db.add('subtitle', 'pob').data)
+      .to.be.an('object')
+      .to.have.property('subtitle', 'pob')
   })
 })

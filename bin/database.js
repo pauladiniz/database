@@ -1,8 +1,6 @@
 /**
  * Database
  *
- * - database exists (?)
- * - find ()
  *
  * - [ ] Set data in objects
  * - [ ] Set data in enviroment
@@ -12,25 +10,40 @@
  */
 'use strict'
 
-let data
-let database
-
-const Database = databasePath => {
-  database = databasePath || '../cache/db.json'
-
+const Database = () => {
   const proto = {
+    data: '',
+    database: '',
+
     /**
-     * Set a key and value for database.
+     * Set file database.
+     *
+     * @param string pathname
+     */
+    setFile: function (pathname) {
+      let regex = new RegExp(/\.json$/)
+
+      if (!regex.test(pathname)) {
+        return new Error('Database expect to be an json file.')
+      } else {
+        this.database = pathname
+      }
+
+      return this
+    },
+
+    /**
+     * Add a key and value for database.
      *
      * @param string key
      * @param string value
      */
-    set: function (key, value) {
-      data = data || {}
-      data[key] = value
+    add: function (key, value) {
+      this.data = this.data || {}
+      this.data[key] = value
 
       return this
-    },
+    }
 
     // setEnv: function () {},
     // get: function () {},
@@ -39,9 +52,9 @@ const Database = databasePath => {
     /**
      * Store data to db.json.
      */
-    store: function () {
-      return data
-    }
+    // store: function () {
+    //   return data
+    // }
   }
 
   return Object.create(proto)
