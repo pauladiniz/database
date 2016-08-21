@@ -5,6 +5,7 @@
 
 const fs = require('fs')
 const path = require('path')
+const _ = require('lodash')
 
 const Database = () => {
   const proto = {
@@ -28,6 +29,9 @@ const Database = () => {
       return this
     },
 
+    /**
+     * Return all data from file.
+     */
     getDatabase: function () {
       if (!fs.existsSync(path.join(__dirname, this.database))) {
         return {}
@@ -45,6 +49,36 @@ const Database = () => {
     add: function (key, value) {
       this.data = this.data || {}
       this.data[key] = value
+
+      return this
+    },
+
+    /**
+     * Add values to env vars from node.
+     *
+     * @param {object} data
+     */
+    addEnv: function (data) {
+      if (typeof data !== 'object') {
+        return new Error('data must be an object')
+      }
+
+      _.map(data, (value, key) => {
+        process.env[key] = value
+      })
+    },
+
+    /**
+     * Add multiples keys to database.
+     *
+     * @param  {object} object
+     */
+    massive: function (data) {
+      if (typeof data !== 'object') {
+        return new Error('data must be an object')
+      }
+
+      _.map(data, (value, key) => this.add(key, value))
 
       return this
     },

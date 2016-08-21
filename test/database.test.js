@@ -16,6 +16,7 @@ let dbFile = '../test/files/db.json'
 describe('Test database', function () {
   before(function () {
     db.setFile(dbFile).add('subtitle', 'pob').store()
+    db.addEnv({'MOOV_SEARCH': 'dope'})
   });
 
   it ('expect to return an error if file is not a json', function () {
@@ -72,5 +73,27 @@ describe('Test database', function () {
   it ('expect an error if key don\'t exists in file', function () {
     expect(db.setFile(dbFile).get('potatoes'))
       .to.be.an.error
+  })
+
+  it ('expect an error if typeof is not a object', function () {
+    expect(db.setFile(dbFile).massive('test'))
+      .to.be.an.error
+  })
+
+  it ('expect to be an object', function () {
+    expect(db.setFile(dbFile).massive({'subtitle': 'pob', 'quality': '720p'}).data)
+      .to.be.an('object')
+      .to.have.property('subtitle')
+  })
+
+  it ('expect an error if parameter is not a object', function () {
+    expect(db.addEnv('test'))
+      .to.be.an.error
+  })
+
+  it ('expect to be an object and contains search', function () {
+    expect(process.env)
+      .to.be.an('object')
+      .to.have.property('MOOV_SEARCH')
   })
 })
