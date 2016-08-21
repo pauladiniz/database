@@ -3,4 +3,4 @@
 /**
  * Moov\Database
  */
-require('./bin/database.js')
+require('./bin/database')
