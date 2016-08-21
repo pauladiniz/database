@@ -9,7 +9,7 @@
   "scripts": {
     "cs": "standard --verbose './bin/**/*.js' | snazzy",
     "test": "mocha -w",
-    "coverage": "istanbul cover _mocha test/database.test.js"
+    "coverage": "istanbul cover _mocha -- -R  spec"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-fs": "^0.1.0",
+    "istanbul": "^0.4.4",
     "leche": "^2.1.2",
     "mocha": "^3.0.2",
     "snazzy": "^4.0.1",

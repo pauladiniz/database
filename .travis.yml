@@ -4,3 +4,4 @@ node_js:
   - "node"
 script:
   - mocha
+  - npm run coverage
