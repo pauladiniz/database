@@ -2,7 +2,7 @@
   "name": "moov-database",
   "version": "0.1.0",
   "description": "Database for moov",
-  "main": "index.js",
+  "main": "./bin/database.js",
   "directories": {
     "test": "test"
   },

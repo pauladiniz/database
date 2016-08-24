@@ -3,4 +3,4 @@
 /**
  * Moov\Database
  */
-require('./bin/database')
+module.exports = require('./bin/database')
