@@ -29,6 +29,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-fs": "^0.1.0",
+    "codeclimate-test-reporter": "^0.3.3",
     "istanbul": "^0.4.4",
     "leche": "^2.1.2",
     "mocha": "^3.0.2",

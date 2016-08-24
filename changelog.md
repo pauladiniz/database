@@ -2,8 +2,6 @@
 
 ## Unreleased
 
-- Set data in objects
-- Set data in enviroment
-- Set massive data in objects
-- Get data from specific file
-- Store save data in files
+## 0.1.0 - (2016-08-24)
+
+- Database json

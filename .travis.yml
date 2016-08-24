@@ -4,4 +4,5 @@ node_js:
   - "node"
 script:
   - mocha
-  - npm run coverage
+after_script:
+  - codeclimate-test-reporter < lcov.info
