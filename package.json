@@ -1,6 +1,6 @@
 {
   "name": "moov-database",
-  "version": "0.1.3",
+  "version": "0.1.2",
   "description": "Database for moov",
   "main": "./bin/database.js",
   "directories": {
