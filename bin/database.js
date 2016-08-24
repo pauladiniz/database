@@ -4,10 +4,19 @@
 'use strict'
 
 const fs = require('fs')
-const path = require('path')
 const _ = require('lodash')
 
 const Database = () => {
+  const __ = {
+    getDatabase: database => {
+      if (!fs.existsSync(database)) {
+        return {}
+      }
+
+      return JSON.parse(fs.readFileSync(database, 'utf8'))
+    }
+  }
+
   const proto = {
     data: '',
     database: '',
@@ -15,39 +24,28 @@ const Database = () => {
     /**
      * Set file database.
      *
-     * @param string pathname
+     * @param {string} pathname
      */
     setFile: function (pathname) {
       let regex = new RegExp(/\.json$/)
 
       if (!regex.test(pathname)) {
-        return new Error('Database expect to be an json file.')
-      } else {
-        this.database = pathname
+        throw new Error('The database file must be a json file')
       }
+
+      this.database = pathname
 
       return this
     },
 
     /**
-     * Return all data from file.
-     */
-    getDatabase: function () {
-      if (!fs.existsSync(path.join(__dirname, this.database))) {
-        return {}
-      }
-
-      return require(path.join(__dirname, this.database))
-    },
-
-    /**
      * Add a key and value for database.
      *
-     * @param string key
-     * @param string value
+     * @param {string} key
+     * @param {string} value
      */
     add: function (key, value) {
-      this.data = this.data || {}
+      this.data = __.getDatabase(this.database)
       this.data[key] = value
 
       return this
@@ -60,7 +58,7 @@ const Database = () => {
      */
     addEnv: function (data) {
       if (typeof data !== 'object') {
-        return new Error('data must be an object')
+        throw new Error('data must be an object')
       }
 
       _.map(data, (value, key) => {
@@ -71,11 +69,11 @@ const Database = () => {
     /**
      * Add multiples keys to database.
      *
-     * @param  {object} object
+     * @param {object} object
      */
     massive: function (data) {
       if (typeof data !== 'object') {
-        return new Error('data must be an object')
+        throw new Error('data must be an object')
       }
 
       _.map(data, (value, key) => this.add(key, value))
@@ -86,13 +84,13 @@ const Database = () => {
     /**
      * Return an key from database or all data.
      *
-     * @param  {string} item
+     * @param {string} item
      */
     get: function (item) {
-      let db = this.getDatabase()
+      let db = __.getDatabase(this.database)
 
       if (item !== undefined && !(item in db)) {
-        return new Error(`${item} is undefined`)
+        throw new Error(`${item} is undefined`)
       }
 
       return db[item] || db
@@ -102,10 +100,12 @@ const Database = () => {
      * Store data to db.json.
      */
     store: function () {
-      fs.writeFile(path.join(__dirname, this.database), JSON.stringify(this.data), err => {
+      fs.writeFile(this.database, JSON.stringify(this.data), err => {
         if (err) {
-          return new Error(err)
+          throw new Error(err)
         }
+
+        return
       })
     }
   }
@@ -113,4 +113,4 @@ const Database = () => {
   return Object.create(proto)
 }
 
-module.exports = Database
+module.exports = Database()

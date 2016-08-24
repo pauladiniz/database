@@ -7,26 +7,27 @@ const path = require('path')
 const chai = require('chai')
 const expect = chai.expect
 
-const db = require('../bin/database')()
-
 chai.use(require('chai-fs'))
 
-let dbFile = '../test/files/db.json'
+const database = require('../bin/database')
+
+const file = path.join(__dirname, '../test/files/db.json')
+const db = database.setFile(file)
 
 describe('Test database', function () {
   before(function () {
-    db.setFile(dbFile).add('subtitle', 'pob').store()
+    db.add('subtitle', 'pob').store()
     db.addEnv({'MOOV_SEARCH': 'dope'})
   });
 
   it ('expect to return an error if file is not a json', function () {
-    expect(db.setFile('../files/database.txt')).to.be.an.error
+    expect(() => { database.setFile('../db.txt') }).to.throw('The database file must be a json file')
   })
 
   it ('expect database to be a string and equal parameter', function () {
-    expect(db.setFile(dbFile).database)
+    expect(db.database)
       .to.be.a('string')
-      .to.be.equal(dbFile)
+      .to.be.equal(file)
   })
 
   it ('expect to be an object and contains subtitle property', function () {
@@ -36,59 +37,59 @@ describe('Test database', function () {
   })
 
   it ('expect file to exists and is a json', function () {
-    expect(path.join(__dirname, dbFile))
+    expect(file)
       .to.be.a.file()
       .with.json
   })
 
   it ('expect an error if file can\'t be created', function () {
-    expect(db.setFile('/home/db.json').add('key', 'value').store())
+    expect(database.setFile('/home/db.json').add('key', 'value').store())
       .to.be.an.error
   })
 
   it ('expect to be an empty object', function () {
-    expect(db.setFile('/home/db.json').getDatabase())
+    expect(database.setFile('/home/db.json').get())
       .to.be.an('object')
       .to.be.empty
   })
 
   it ('expect to be an not empty object', function () {
-    expect(db.setFile(dbFile).getDatabase(dbFile))
+    expect(database.setFile(file).get())
       .to.be.an('object')
       .to.not.empty
   })
 
   it ('expect to be an object and contains subtitle', function () {
-    expect(db.setFile(dbFile).get())
+    expect(db.get())
       .to.be.an('object')
       .to.have.property('subtitle', 'pob')
   })
 
   it ('expect to be a string and is equal pob', function () {
-    expect(db.setFile(dbFile).get('subtitle'))
+    expect(db.get('subtitle'))
       .to.be.an('string')
       .to.be.equal('pob')
   })
 
   it ('expect an error if key don\'t exists in file', function () {
-    expect(db.setFile(dbFile).get('potatoes'))
-      .to.be.an.error
+    expect(() => { db.get('potatoes') })
+      .to.throw('potatoes is undefined')
   })
 
   it ('expect an error if typeof is not a object', function () {
-    expect(db.setFile(dbFile).massive('test'))
-      .to.be.an.error
+    expect(() => { db.massive('test') })
+      .to.throw('data must be an object')
   })
 
   it ('expect to be an object', function () {
-    expect(db.setFile(dbFile).massive({'subtitle': 'pob', 'quality': '720p'}).data)
+    expect(db.massive({'subtitle': 'pob', 'quality': '720p'}).data)
       .to.be.an('object')
       .to.have.property('subtitle')
   })
 
   it ('expect an error if parameter is not a object', function () {
-    expect(db.addEnv('test'))
-      .to.be.an.error
+    expect(() => { db.addEnv('test') })
+      .to.throw('data must be an object')
   })
 
   it ('expect to be an object and contains search', function () {
