@@ -9,8 +9,8 @@ const _ = require('lodash')
 const Database = () => {
   const __ = {
     getDatabase: database => {
-      if (!fs.existsSync(database)) {
-        return {}
+      if (!fs.existsSync(database) || !fs.readFileSync(database, 'utf8')) {
+        return false
       }
 
       return JSON.parse(fs.readFileSync(database, 'utf8'))
@@ -18,7 +18,7 @@ const Database = () => {
   }
 
   const proto = {
-    data: '',
+    data: {},
     database: '',
 
     /**
@@ -45,7 +45,7 @@ const Database = () => {
      * @param {string} value
      */
     add: function (key, value) {
-      this.data = __.getDatabase(this.database)
+      this.data = __.getDatabase(this.database) || this.data
       this.data[key] = value
 
       return this
@@ -87,7 +87,7 @@ const Database = () => {
      * @param {string} item
      */
     get: function (item) {
-      let db = __.getDatabase(this.database)
+      let db = __.getDatabase(this.database) || this.data
 
       if (item !== undefined && !(item in db)) {
         throw new Error(`${item} is undefined`)
@@ -105,7 +105,7 @@ const Database = () => {
           throw new Error(err)
         }
 
-        return
+        return this
       })
     }
   }

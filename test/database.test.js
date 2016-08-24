@@ -48,6 +48,8 @@ describe('Test database', function () {
   })
 
   it ('expect to be an empty object', function () {
+    database.setFile('/home/db.json').data = {}
+
     expect(database.setFile('/home/db.json').get())
       .to.be.an('object')
       .to.be.empty
