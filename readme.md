@@ -15,14 +15,15 @@
 
 A simple json database storage.
 
-## Get Start
+## Get Started
 
-Install the package:
+Install the package
 
 ```shell
 $ [sudo] npm install --save moov-database
 ```
-Call this in your module:
+
+## Basic Usage
 
 ```js
 const db = require('moov-database')
@@ -50,7 +51,7 @@ console.log(db.database) // ./users.json
 
 ### .add(key, value)
 
-`add` method allow you to set a key => value for temporary `.data`
+Using the `add` method you can push a new data to your `database`
 
 ```js
 //...
@@ -58,7 +59,8 @@ console.log(db.database) // ./users.json
 db.add('username', 'donkey')
 db.add('useremail', 'donkey@mydonkeymail.com')
 
-// OR
+// Or you can chain methods...
+
 db
   .add('username', 'donkey')
   .add('useremail', 'donkey@mydonkeymail.com')
@@ -69,7 +71,7 @@ console.log(db.data) // {username: 'donkey', useremail: 'donkey@mydonkeymail.com
 
 ### .massive()
 
-`massive` method allow you to add an object for `.data`
+Using the `massive` method you can store an whole object at once to your ` database`
 
 ```js
 //...
@@ -91,7 +93,7 @@ console.log(db.data)
 ```
 
 ### .store()
-`store` method save your data to you `.json` file.
+The `store` method will save the stored data in to a `.json` file
 
 ```js
 //...
@@ -101,8 +103,7 @@ db.store()
 
 ### .get()
 
-`get` method return an key if exists in your file, or return all object if any
-value has passed.
+Using the `get` method you can retrieve all data stored in database, or you can retrieve a single result by passing his `key` name
 
 ```js
 //...
