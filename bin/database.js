@@ -69,7 +69,7 @@ const Database = () => {
     /**
      * Add multiples keys to database.
      *
-     * @param {object} object
+     * @param {object} data
      */
     massive: function (data) {
       if (typeof data !== 'object') {

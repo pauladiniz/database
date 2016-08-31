@@ -1,0 +1,12 @@
+filter:
+  excluded_paths:
+    - test/*
+
+build:
+  tests:
+    override:
+      -
+        command: 'node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report clover ./test/database.test.js'
+        coverage:
+          file: 'coverage/clover.xml'
+          format: 'clover'
