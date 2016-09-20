@@ -21,6 +21,10 @@ const Database = () => {
     data: {},
     database: '',
 
+    databaseExists: function () {
+      return fs.existsSync(this.database)
+    },
+
     /**
      * Set file database.
      *

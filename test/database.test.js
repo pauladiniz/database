@@ -30,6 +30,11 @@ describe('Test database', function () {
       .to.be.equal(file)
   })
 
+  it ('expect database to exists', function () {
+    expect(db.databaseExists())
+      .to.be.true
+  })
+
   it ('expect to be an object and contains subtitle property', function () {
     expect(db.add('subtitle', 'pob').data)
       .to.be.an('object')
